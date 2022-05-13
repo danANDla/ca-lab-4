@@ -16,30 +16,28 @@ public class Main {
         Lagrange lagrange = new Lagrange();
 
         boolean running = true;
-        while (running) {
-            int mode = asker.askMode();
-            switch (mode) {
-                case (1): {
-                    int funcid = asker.askFunction();
-                    Point[] points = functionManager.getFunc(funcid).getPoints();
-                    Point[] func = lagrange.getInterpolation(points);
+        int mode = asker.askMode();
+        switch (mode) {
+            case (1): {
+                int funcid = asker.askFunction();
+                Point[] points = functionManager.getFunc(funcid).getPoints(40);
+                Point[] func = lagrange.getInterpolation(points);
 
-                    plt.scatter(points, func, "Interpolated");
-                    plt.show();
-                    break;
-                }
-                case (2): {
-                    Point[] points = asker.askPoints();
-                    Point[] func = lagrange.getInterpolation(points);
+                plt.scatter(points, func, "Interpolated");
+                plt.show();
+                break;
+            }
+            case (2): {
+                Point[] points = asker.askPoints();
+                Point[] func = lagrange.getInterpolation(points);
 
-                    plt.scatter(points, func, "Interpolated");
-                    plt.show();
-                    break;
-                }
-                case (0): {
-                    running = false;
-                    break;
-                }
+                plt.scatter(points, func, "Interpolated");
+                plt.show();
+                break;
+            }
+            case (0): {
+                running = false;
+                break;
             }
         }
 

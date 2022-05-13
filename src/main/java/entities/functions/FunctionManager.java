@@ -8,6 +8,7 @@ public class FunctionManager {
     public FunctionManager() {
         allFunctions = new ArrayList<>();
         allFunctions.add(new func1());
+        allFunctions.add(new func2());
     }
 
     public ArrayList<Function> getAllFunctions() {

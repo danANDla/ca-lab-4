@@ -3,7 +3,7 @@ package entities.functions;
 import entities.Point;
 
 public interface Function {
-    Point[] getPoints();
+    Point[] getPoints(int numberOfPoints);
     Point[] getPointsWithMoise();
     String toString();
 }
