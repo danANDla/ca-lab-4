@@ -20,7 +20,11 @@ public class Main {
         switch (mode) {
             case (1): {
                 int funcid = asker.askFunction();
-                Point[] points = functionManager.getFunc(funcid).getPoints(40);
+                int steps = asker.askNumberOfPoints();
+                double step = asker.askStep();
+                double initial = asker.askInitial();
+
+                Point[] points = functionManager.getFunc(funcid).getPoints(steps, step, initial);
                 Point[] func = lagrange.getInterpolation(points);
 
                 plt.scatter(points, func, "Interpolated");

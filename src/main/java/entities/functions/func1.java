@@ -5,12 +5,11 @@ import entities.Point;
 public class func1 implements Function{
 
     @Override
-    public Point[] getPoints(int numberOfPoints) {
+    public Point[] getPoints(int numberOfPoints, double step, double initial) {
         Point[] arr = new Point[numberOfPoints];
-        double point = -1;
+        double point = initial;
         for(int i = 0; i < numberOfPoints; ++i){
             arr[i] = new Point(point, Math.sin(point));
-            double step = 0.35;
             point += step;
         }
 //        Point[] arr = new Point[11];

@@ -53,7 +53,7 @@ public class Asker {
         boolean valid = false;
         io.printDivider();
         io.printText("Выберите режим:\n" +
-                "(1) сгенирировать набор точек\n" +
+                "(1) сгенирировать набор точек с помощью функций\n" +
                 "(2) ввести точки вручную\n" +
                 "(0) выход из приложения\n");
         while (!valid) {
@@ -71,7 +71,7 @@ public class Asker {
         return mode;
     }
 
-    public Point[] askPoints(){
+    public int askNumberOfPoints(){
         io.printText("введите количество точек");
         int k = -1;
         boolean valid = false;
@@ -83,6 +83,41 @@ public class Asker {
                 io.printError("Неправильный формат целого числа");
             }
         }
+        return k;
+    }
+
+    public double askStep(){
+        io.printText("введите шаг генерации точек");
+        double step = 0;
+        boolean valid = false;
+        while (!valid) {
+            try {
+                step = Double.parseDouble(getNonEmpty());
+                valid = true;
+            } catch (NumberFormatException e) {
+                io.printError("Неправильный формат целого числа");
+            }
+        }
+        return step;
+    }
+
+    public double askInitial(){
+        io.printText("введите абсциссу первой точки");
+        double init = -1;
+        boolean valid = false;
+        while (!valid) {
+            try {
+                init = Double.parseDouble(getNonEmpty());
+                valid = true;
+            } catch (NumberFormatException e) {
+                io.printError("Неправильный формат целого числа");
+            }
+        }
+        return init;
+    }
+
+    public Point[] askPoints(){
+        int k = askNumberOfPoints();
 
         io.printText("введите координаты точек");
         Point[] points = new Point[k];
