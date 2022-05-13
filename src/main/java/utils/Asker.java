@@ -1,14 +1,17 @@
 package utils;
 
 import entities.Point;
+import entities.functions.FunctionManager;
 
 import java.util.Locale;
 
 public class Asker {
     private IOutil io;
+    private FunctionManager functionManager;
 
-    public Asker(IOutil io) {
+    public Asker(IOutil io, FunctionManager functionManager) {
         this.io = io;
+        this.functionManager = functionManager;
     }
 
     private String getNonEmpty() {
@@ -21,18 +24,43 @@ public class Asker {
         return str;
     }
 
+    public int askFunction(){
+        int sysid = 0;
+        boolean valid = false;
+        io.printText("Выберите функию:");
+        for(int i = 0; i < functionManager.getAllFunctions().size(); ++i){
+            System.out.printf("(%d) ", i+1);
+            io.printText(functionManager.getFunc(i).toString());
+        }
+        io.printText("(0) отмена");
+        while (!valid) {
+            try {
+                sysid = Integer.parseInt(getNonEmpty()) - 1;
+                valid = true;
+                if (sysid < -1 || sysid >= functionManager.getAllFunctions().size()) {
+                    io.printError("Такой опции нет");
+                    valid = false;
+                }
+            } catch (NumberFormatException e) {
+                io.printError("Неправильный формат целого числа");
+            }
+        }
+        return sysid;
+    }
+
     public int askMode() {
         int mode = 0;
         boolean valid = false;
         io.printDivider();
-        io.printText("Выберите задачу:\n" +
-                "(1) решить задачу интерполяции\n" +
+        io.printText("Выберите режим:\n" +
+                "(1) сгенирировать набор точек\n" +
+                "(2) ввести точки вручную\n" +
                 "(0) выход из приложения\n");
         while (!valid) {
             try {
                 mode = Integer.parseInt(getNonEmpty());
                 valid = true;
-                if (mode < 0 || mode > 1) {
+                if (mode < 0 || mode > 2) {
                     io.printError("Такой опции нет");
                     valid = false;
                 }
