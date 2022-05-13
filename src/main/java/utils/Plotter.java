@@ -8,19 +8,22 @@ import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.lines.SeriesLines;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
+import javax.swing.*;
 public class Plotter {
-    XYChart chart;
 
-    public Plotter(String plotName, String xGrid, String yGrid) {
+    public Plotter() {
+    }
+    public void scatter(int counter, Point[] initial, Point[] points) {
         int width = 640;
         int height = 480;
-        this.chart = new XYChartBuilder().width(width).height(height).title(plotName).xAxisTitle(xGrid).yAxisTitle(yGrid).build();
-    }
+        XYChart chart = new XYChartBuilder().width(width).height(height).title("Graph").xAxisTitle("X").yAxisTitle("Y").build();
 
-    public void scatter(Point[] initial, Point[] points, String name) {
         double[] xValues = new double[points.length];
         double[] yValues = new double[points.length];
-        for(int i = 0; i < points.length; ++i){
+        String seriesname = "intital(" + counter + ")";
+        String name = "interpolated(" + counter + ")";
+
+        for (int i = 0; i < points.length; ++i) {
             xValues[i] = points[i].getX();
             yValues[i] = points[i].getY();
         }
@@ -29,15 +32,20 @@ public class Plotter {
 
         double[] xInitValues = new double[initial.length];
         double[] yInitValues = new double[initial.length];
-        for(int i = 0; i < initial.length; ++i){
+        for (int i = 0; i < initial.length; ++i) {
             xInitValues[i] = initial[i].getX();
             yInitValues[i] = initial[i].getY();
         }
-        XYSeries  initSeris = chart.addSeries("initial", xInitValues, yInitValues);
+        XYSeries initSeris = chart.addSeries(seriesname, xInitValues, yInitValues);
         initSeris.setLineStyle(SeriesLines.NONE);
+
+        show(chart);
     }
 
-    public void show(){
-        new SwingWrapper(this.chart).displayChart();
+    private void show(XYChart chart) {
+        JFrame frame = new SwingWrapper(chart).displayChart();
+        frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        System.out.println("closed");
+//        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 }

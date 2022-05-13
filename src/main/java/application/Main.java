@@ -12,38 +12,41 @@ public class Main {
         IOutil io = new IOutil();
         FunctionManager functionManager = new FunctionManager();
         Asker asker = new Asker(io, functionManager);
-        Plotter plt = new Plotter("TestName", "TestX", "TestY");
         Lagrange lagrange = new Lagrange();
+        Plotter plt = new Plotter();
 
         boolean running = true;
-        int mode = asker.askMode();
-        switch (mode) {
-            case (1): {
-                int funcid = asker.askFunction();
-                int steps = asker.askNumberOfPoints();
-                double step = asker.askStep();
-                double initial = asker.askInitial();
+        int counter = 1;
+        while (running){
+            int mode = asker.askMode();
+            switch (mode) {
+                case (1): {
+                    int funcid = asker.askFunction();
+                    if(funcid == -1) continue;
+                    int steps = asker.askNumberOfPoints();
+                    double step = asker.askStep();
+                    double initial = asker.askInitial();
 
-                Point[] points = functionManager.getFunc(funcid).getPoints(steps, step, initial);
-                Point[] func = lagrange.getInterpolation(points);
+                    Point[] points = functionManager.getFunc(funcid).getPoints(steps, step, initial);
+                    Point[] func = lagrange.getInterpolation(points);
 
-                plt.scatter(points, func, "Interpolated");
-                plt.show();
-                break;
-            }
-            case (2): {
-                Point[] points = asker.askPoints();
-                Point[] func = lagrange.getInterpolation(points);
+                    plt.scatter(counter, points, func);
+                    counter++;
+                    break;
+                }
+                case (2): {
+                    Point[] points = asker.askPoints();
+                    Point[] func = lagrange.getInterpolation(points);
 
-                plt.scatter(points, func, "Interpolated");
-                plt.show();
-                break;
-            }
-            case (0): {
-                running = false;
-                break;
+                    plt.scatter(counter, points, func);
+                    counter++;
+                    break;
+                }
+                case (0): {
+                    running = false;
+                    System.exit(0);
+                }
             }
         }
-
     }
 }
